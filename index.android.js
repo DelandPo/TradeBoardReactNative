@@ -8,6 +8,8 @@ import React, { Component } from 'react';
 import { StackNavigator } from 'react-navigation';
 
 import MainView from 'app/MainView';
+import SetCompany from 'app/UI/SetCompany';
+
 import {
   AppRegistry,
   StyleSheet,
@@ -17,7 +19,8 @@ import {
 } from 'react-native';
 
 const TradeBoard = StackNavigator({
-  Home: {screen: MainView}
+  Home: {screen: MainView}, 
+  Company:{screen:SetCompany},
 },
 {
   headerMode:'none',

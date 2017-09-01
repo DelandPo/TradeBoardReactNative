@@ -33,10 +33,14 @@ import commonColor from 'TradeBoard/native-base-theme/variables/commonColor';
 import platform from 'TradeBoard/native-base-theme/variables/platform';
 import UserLogin from 'Services/Auth/UserLogin';
 import Styles from 'Styles/Styles'
-
+import { NavigationActions } from 'react-navigation'
 
 export default class TradeBoard extends Component {
-
+  static navigationOptions = {
+    header: {
+      visible: false
+    }
+  };
   constructor(props){
     super(props);
     this.state = {
@@ -61,17 +65,19 @@ export default class TradeBoard extends Component {
     );
   }
 
-  renderSetCompany(){
+  renderSetCompany(navigate){
     return (
-      <TouchableHighlight style = {styles.MainViewButton}
-        onPress = {()=>{}}
+      <TouchableHighlight style = {Styles.MainViewButton}
+        onPress = {()=>{
+        navigate('Company')
+        }}
         >
-        <Text style = {Styles.MainViewButton}>
+        <Text style = {Styles.MainViewButtonText}>
           Set Company
           </Text>
           </TouchableHighlight>
     )
-  }
+  }  
 
   renderDropButton() {
     return(
@@ -87,7 +93,7 @@ export default class TradeBoard extends Component {
     );
   }
 
-  renderMainPageContent(){
+  renderMainPageContent(navigate){
     return (
       <Col size={5} style={{
         justifyContent: 'center',
@@ -110,7 +116,7 @@ export default class TradeBoard extends Component {
         <Row size = {1}></Row>
         
         <Row size = {2}>
-          {this.renderSetCompany()}
+          {this.renderSetCompany(navigate)}
           </Row>
         <Row size={6}></Row>
       </Col>
@@ -128,7 +134,7 @@ export default class TradeBoard extends Component {
             <Grid>
               <Col size={1}></Col>
               <UserLogin onLogin={this.userLoginHandler.bind(this)}/>
-                {this.renderMainPageContent()}
+                {this.renderMainPageContent(navigate)}
               <Col size={1}></Col>
             </Grid>
           </Image>
