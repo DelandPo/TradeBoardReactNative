@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "494894149578",
+    "firebase_url": "https://tradeboard-a8a5e.firebaseio.com",
+    "project_id": "tradeboard-a8a5e",
+    "storage_bucket": "tradeboard-a8a5e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:494894149578:android:979691a9c1ee68d9",
+        "android_client_info": {
+          "package_name": "com.tradeboard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "494894149578-hjjap1m9p3qt1ee9t4r245q8dh28877m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmwg-VksIYHEg8LMUeViVW_J_fGDiEuqo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
