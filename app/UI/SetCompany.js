@@ -1,5 +1,5 @@
 import React from 'react';
-import { View,TouchableHighlight, Text } from 'react-native';
+import { View,TouchableHighlight, Text, ToastAndroid} from 'react-native';
 import {
   ActionSheetCell,
   ButtonCell,
@@ -29,7 +29,8 @@ import {
     StyleProvider,
     Title
   } from 'native-base'
-  
+
+import firebase from 'Firebase/Firebase';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Styles from 'Styles/Styles'
 
@@ -46,15 +47,22 @@ export default class SetCompany extends React.Component {
   handlePress(ref) {
     if (ref === 'LogData') {
       console.log(this.form.getData());
+      ToastAndroid.show(this.form.getData(),1)
     } else if (ref === 'LogValidationErrors') {
       console.log(this.form.getValidationErrors());
     }
   }
 
-  renderSubmitButton(){
+  renderSubmitButton(ref){
     return(
         <TouchableHighlight style = {Styles.MainViewButton}
-            onPress = {()=>{}}
+            onPress = {()=>{
+                this.updateCompanyAvailableListings(this.form.getData()["CompanyDetails"].CompanyName),
+                firebase.database().ref('/Users/' + firebase.auth().currentUser.uid).update({
+                 Company:this.form.getData(),
+                })
+              }
+            }
             >
             <Text style = {Styles.MainViewButtonText}>
                 Submit
@@ -63,6 +71,13 @@ export default class SetCompany extends React.Component {
     )
 }
 
+updateCompanyAvailableListings(CompanyName){
+  firebase.database().ref('/AvailableCompanies/'+CompanyName+'/').update({
+    Name : CompanyName
+  })
+}
+
+
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: '#EFEFF4' }}>
@@ -70,6 +85,7 @@ export default class SetCompany extends React.Component {
           ref={(ref) => { this.form = ref; }}
           onPress={this.handlePress.bind(this)}
           onChange={this.handleChange.bind(this)}
+          ren = {this.renderSubmitButton.bind(this)}
         >
           <Section
             ref={'CompanyDetails'}
@@ -105,7 +121,6 @@ export default class SetCompany extends React.Component {
         {this.renderSubmitButton()}
         <Col size={1}></Col>
         </Grid>
-        
         </Form>
       
       </View>
