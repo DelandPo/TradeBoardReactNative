@@ -9,6 +9,7 @@ import { StackNavigator } from 'react-navigation';
 
 import MainView from 'app/MainView';
 import SetCompany from 'app/UI/SetCompany';
+import DropShift from 'app/UI/DropShift';
 
 import {
   AppRegistry,
@@ -21,6 +22,7 @@ import {
 const TradeBoard = StackNavigator({
   Home: {screen: MainView}, 
   Company:{screen:SetCompany},
+  DropShift:{screen:DropShift},
 },
 {
   headerMode:'none',

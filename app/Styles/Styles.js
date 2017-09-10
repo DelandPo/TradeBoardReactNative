@@ -195,17 +195,16 @@ const styles = StyleSheet.create({
 
   MainViewButton:{
     borderWidth: 1,
-    borderColor: 'rgb(0,143,255)',
-    borderRadius: 100,
-    backgroundColor: 'indigo',
+    backgroundColor: 'burlywood',
     width:150,
-    height:45,
+    height:60,
+    borderRadius:20,
     alignItems:'center',
     justifyContent:'center',
   },
 
   MainViewButtonText:{
-    color:'white',
+    color:'black',
     fontSize:16,
     fontWeight:'bold',
     textAlign:'center',

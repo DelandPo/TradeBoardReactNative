@@ -56,7 +56,9 @@ export default class TradeBoard extends Component {
   renderPickButton() {
     return (
           <TouchableHighlight style={Styles.MainViewButton}
-            onPress = {() => {}}
+            onPress = {() => {
+              
+            }}
             >
             <Text style={Styles.MainViewButtonText}>
               Pick
@@ -79,11 +81,13 @@ export default class TradeBoard extends Component {
     )
   }  
 
-  renderDropButton() {
+  renderDropButton(navigate) {
     return(
       <TouchableHighlight style={Styles.MainViewButton}
         onPress = {
-          () => {}
+          () => {
+            navigate('DropShift')
+          }
         }
       >
         <Text style={Styles.MainViewButtonText}>
@@ -105,7 +109,7 @@ export default class TradeBoard extends Component {
         </Row>
         <Row size={1}></Row>
         <Row size={2}>
-          {this.renderDropButton()}
+          {this.renderDropButton(navigate)}
         </Row>
         <Row size={1}>
           <Text></Text>
@@ -128,7 +132,7 @@ export default class TradeBoard extends Component {
 		return (
   			<Container>
           <Image
-            source={require('app/Image/spacebackground.jpg')}
+            source={require('app/Image/plainred.jpg')}
             style={{ flex: 1, height: null, width: null, resizeMode: 'cover' }}
           >
             <Grid>
