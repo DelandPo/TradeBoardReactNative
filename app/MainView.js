@@ -67,6 +67,12 @@ export default class TradeBoard extends Component {
     );
   }
 
+  renderTitleText(){
+    return(
+      <Text style = {Styles.MainTitleText}> TradeBoard </Text>
+    )
+  }
+
   renderSetCompany(navigate){
     return (
       <TouchableHighlight style = {Styles.MainViewButton}
@@ -105,7 +111,8 @@ export default class TradeBoard extends Component {
       >
         <Row size={7.5}>
         </Row>
-        <Row size={1}>
+        <Row size={2}>
+          {this.renderTitleText()}
         </Row>
         <Row size={1}></Row>
         <Row size={2}>

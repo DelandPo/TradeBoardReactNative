@@ -40,11 +40,12 @@ export default class DropShift extends React.Component{
     handleChange(ref,change){}
     handlePress(ref){}
     
-    renderSubmitButton(ref){
+    renderSubmitButton(navigate){
         return(
             <TouchableHighlight style = {Styles.MainViewButton}
                 onPress = {()=>{
-                    
+                    this.postListings(),
+                    navigate('Home')
                 }}
                 >
                 <Text style = {Styles.MainViewButtonText}>
@@ -54,8 +55,15 @@ export default class DropShift extends React.Component{
         )
     }
 
+    postListings(){
+        firebase.database().ref('Listings/'+ 'Vizlab/').update({
+            0:this.form.getData()["ShiftDetails"],
+        })
+    }
+
 
     render(){
+        const {navigate} = this.props.navigation;
         return(
             <View style = {{flex:1,backgroundColor:'#EFEFF4'}}>
                 <Form
@@ -64,42 +72,35 @@ export default class DropShift extends React.Component{
                     onChange = {this.handleChange.bind(this)}
                     ren = {this.renderSubmitButton.bind(this)}
                 >
-
                 <Section
                     ref = {'ShiftDetails'}
                     title = {'Enter Your Shift Details'}
                 >
-
                 <TextInputCell
                     ref = {'Title'}
                     inputProps = {{placeholder: "Tell us what you were supposed to work on"}}
                 />
-
                 <TextInputCell
                     ref = {'Start Time'}
                     inputProps = {{placeholder: 'Start Time'}}
                 />
-
                 <TextInputCell
                     ref = {'End Time'}
                     inputProps = {{placeholder: 'End Time'}}
                 />
-
                 <TextInputCell
                     ref = {'Date'}
                     inputProps = {{placeholder: 'Date(mm/dd/yyyy)'}}
                 />
-
                 <TextInputCell
                     ref = {'Hours'}
                     inputProps = {{placeholder: 'How long were you supposed to work?'}}
                 />
-                
                 </Section>
 
                 <Grid>
                     <Col size = {1}></Col>
-                    {this.renderSubmitButton()}
+                    {this.renderSubmitButton(navigate)}
                     <Col size = {1}></Col>
                 </Grid>
 

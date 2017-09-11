@@ -205,8 +205,13 @@ const styles = StyleSheet.create({
 
   MainViewButtonText:{
     color:'black',
-    fontSize:16,
-    fontWeight:'bold',
+    fontSize:20,
+    textAlign:'center',
+  },
+
+  MainTitleText:{
+    color:'black',
+    fontSize:50,
     textAlign:'center',
   },
 
