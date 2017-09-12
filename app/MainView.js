@@ -6,6 +6,7 @@ import {
   View,
   Image,
   Button,
+  Alert,
   TouchableHighlight,
 } from 'react-native';
 
@@ -27,6 +28,7 @@ import {
   Title
 } from 'native-base'
 
+import firebase from 'Services/Firebase/Firebase';
 import getTheme from 'TradeBoard/native-base-theme/components';
 import material from 'TradeBoard/native-base-theme/variables/material';
 import commonColor from 'TradeBoard/native-base-theme/variables/commonColor';
@@ -46,18 +48,24 @@ export default class TradeBoard extends Component {
     this.state = {
       currentUserGoogle: null,
       currentUserFirebase: null,
+      companyNotSetup:true,
     };
   }
 
   userLoginHandler(userGoogle, userFirebase){
     this.setState({currentUserGoogle:userGoogle,currentUserFirebase:userFirebase});
+    this.checkCompany();
   }
 
-  renderPickButton() {
+  renderPickButton(navigate) {
     return (
           <TouchableHighlight style={Styles.MainViewButton}
             onPress = {() => {
-              
+              this.state.companyNotSetup == false?
+              // do nothing
+              <Text> This is good </Text>
+              :
+              this.renderSetCompanyAlert(navigate);
             }}
             >
             <Text style={Styles.MainViewButtonText}>
@@ -73,8 +81,9 @@ export default class TradeBoard extends Component {
     )
   }
 
-  renderSetCompany(navigate){
+  renderSetCompany(){
     return (
+      this.state.renderSetCompanyButton == true?
       <TouchableHighlight style = {Styles.MainViewButton}
         onPress = {()=>{
         navigate('Company')
@@ -84,15 +93,58 @@ export default class TradeBoard extends Component {
           Set Company
           </Text>
           </TouchableHighlight>
+          :
+          null
     )
-  }  
+  }
+
+  renderSetCompanyAlert(navigate){
+    Alert.alert(
+      'Set up your company profile!',
+      'Your profile is incomplete. Please setup your company profile in order to access the services.',
+      [
+        {text:'Ok', onPress:()=>{
+          navigate('Company');
+        }},
+        {text:'Cancel'}
+      ],
+      {cancelable : false}
+    )
+  }
+  
+  checkCompany(){
+    const { navigate } = this.props.navigation;     
+    firebase.database().ref('/Users/'+firebase.auth().currentUser.uid).once('value',(snap)=>{
+        var Name = snap.val().userName;
+        var Email = snap.val().email;
+        var Picked = snap.val().numberOfPickedShifts;
+        var Dropped = snap.val().numberOfDropedShifts;
+        try{
+        var Company = snap.val().Company.CompanyDetails;
+        if(Company != null){
+          this.setState({companySetup:false})
+        }
+        console.log(Company)}
+        catch(ex){
+          this.setState({companyNotSetup:true})          
+          this.renderSetCompanyAlert(navigate);
+        }
+
+      
+    });
+  
+    }
+  
 
   renderDropButton(navigate) {
     return(
       <TouchableHighlight style={Styles.MainViewButton}
         onPress = {
           () => {
+            this.state.companyNotSetup == false?
             navigate('DropShift')
+            :
+            this.renderSetCompanyAlert(navigate);
           }
         }
       >
@@ -105,6 +157,7 @@ export default class TradeBoard extends Component {
 
   renderMainPageContent(navigate){
     return (
+      
       <Col size={5} style={{
         justifyContent: 'center',
         alignItems: 'center'}}
@@ -122,20 +175,16 @@ export default class TradeBoard extends Component {
           <Text></Text>
         </Row>
         <Row size={2}>
-          {this.renderPickButton()}
+          {this.renderPickButton(navigate)}
         </Row>
         <Row size = {1}></Row>
-        
-        <Row size = {2}>
-          {this.renderSetCompany(navigate)}
-          </Row>
         <Row size={6}></Row>
       </Col>
     );
   }
 
 	render () {
-    const { navigate } = this.props.navigation;
+    const { navigate } = this.props.navigation;    
 		return (
   			<Container>
           <Image
