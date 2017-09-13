@@ -54,13 +54,15 @@ export default class SetCompany extends React.Component {
   }
 
   renderSubmitButton(ref){
+    const {navigate} = this.props.navigation;
     return(
         <TouchableHighlight style = {Styles.MainViewButton}
             onPress = {()=>{
                 this.updateCompanyAvailableListings(this.form.getData()["CompanyDetails"].CompanyName),
                 firebase.database().ref('/Users/' + firebase.auth().currentUser.uid).update({
                  Company:this.form.getData(),
-                })
+                });
+                navigate('Home');
               }
             }
             >

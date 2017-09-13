@@ -56,7 +56,10 @@ export default class DropShift extends React.Component{
     }
 
     postListings(){
-        firebase.database().ref('Listings/'+ 'Vizlab/').update({
+        const {params} = this.props.navigation.state;
+        console.log("hello world"+
+        JSON.stringify(params.userDetails));
+        firebase.database().ref('Listings/'+ params.userDetails).update({
             0:this.form.getData()["ShiftDetails"],
         })
     }

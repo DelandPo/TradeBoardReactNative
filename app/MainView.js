@@ -49,12 +49,17 @@ export default class TradeBoard extends Component {
       currentUserGoogle: null,
       currentUserFirebase: null,
       companyNotSetup:true,
+      userDetails:null,
     };
   }
 
   userLoginHandler(userGoogle, userFirebase){
     this.setState({currentUserGoogle:userGoogle,currentUserFirebase:userFirebase});
     this.checkCompany();
+  }
+
+  setCompanySetupTrue(){
+    this.setState({companyNotSetup:false});
   }
 
   renderPickButton(navigate) {
@@ -75,6 +80,25 @@ export default class TradeBoard extends Component {
     );
   }
 
+  renderDropButton(navigate) {
+    return(
+      <TouchableHighlight style={Styles.MainViewButton}
+        onPress = {
+          () => {
+            this.state.companyNotSetup == false?
+            navigate('DropShift',{userDetails:this.state.userDetails})
+            :
+            this.renderSetCompanyAlert(navigate);
+          }
+        }
+      >
+        <Text style={Styles.MainViewButtonText}>
+          Drop
+        </Text>
+      </TouchableHighlight>
+    );
+  }
+
   renderTitleText(){
     return(
       <Text style = {Styles.MainTitleText}> TradeBoard </Text>
@@ -86,7 +110,7 @@ export default class TradeBoard extends Component {
       this.state.renderSetCompanyButton == true?
       <TouchableHighlight style = {Styles.MainViewButton}
         onPress = {()=>{
-        navigate('Company')
+        navigate('Company',[{setCompanySetupTrue:this.setCompanySetupTrue.bind(this)},{Link:navigate}])
         }}
         >
         <Text style = {Styles.MainViewButtonText}>
@@ -119,41 +143,24 @@ export default class TradeBoard extends Component {
         var Email = snap.val().email;
         var Picked = snap.val().numberOfPickedShifts;
         var Dropped = snap.val().numberOfDropedShifts;
+
         try{
         var Company = snap.val().Company.CompanyDetails;
-        if(Company != null){
-          this.setState({companySetup:false})
-        }
-        console.log(Company)}
+          if(Company != null)
+          {
+            this.setState({companyNotSetup:false}),
+            this.setState({userDetails:Company})
+          }
+          console.log(Company)
+        }  
+
         catch(ex){
           this.setState({companyNotSetup:true})          
           this.renderSetCompanyAlert(navigate);
         }
-
-      
     });
   
     }
-  
-
-  renderDropButton(navigate) {
-    return(
-      <TouchableHighlight style={Styles.MainViewButton}
-        onPress = {
-          () => {
-            this.state.companyNotSetup == false?
-            navigate('DropShift')
-            :
-            this.renderSetCompanyAlert(navigate);
-          }
-        }
-      >
-        <Text style={Styles.MainViewButtonText}>
-          Drop
-        </Text>
-      </TouchableHighlight>
-    );
-  }
 
   renderMainPageContent(navigate){
     return (
