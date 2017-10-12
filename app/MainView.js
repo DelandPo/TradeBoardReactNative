@@ -25,7 +25,7 @@ import {
   Left,
   Right,
   StyleProvider,
-  Title
+  Title,
 } from 'native-base'
 
 import firebase from 'Services/Firebase/Firebase';
@@ -36,7 +36,8 @@ import platform from 'TradeBoard/native-base-theme/variables/platform';
 import UserLogin from 'Services/Auth/UserLogin';
 import Styles from 'Styles/Styles'
 import { NavigationActions } from 'react-navigation'
-
+import { Drawer } from 'native-base';
+import SideBar from 'app/UI/SetCompany';
 export default class TradeBoard extends Component {
   static navigationOptions = {
     header: {
@@ -122,6 +123,14 @@ export default class TradeBoard extends Component {
     )
   }
 
+  renderNothing(){
+    return(
+      <TouchableHighlight style = {Styles.MainViewButton} onPress = {()=> {openDrawer()}}> 
+        <Text style = {Styles.MainViewButton}> Hello </Text>
+        </TouchableHighlight>      
+    )
+  }
+
   renderSetCompanyAlert(navigate){
     Alert.alert(
       'Set up your company profile!',
@@ -184,6 +193,9 @@ export default class TradeBoard extends Component {
         <Row size={2}>
           {this.renderPickButton(navigate)}
         </Row>
+        <Row size = {2}>
+          {this.renderNothing()}
+          </Row>
         <Row size = {1}></Row>
         <Row size={6}></Row>
       </Col>
@@ -191,9 +203,25 @@ export default class TradeBoard extends Component {
   }
 
 	render () {
-    const { navigate } = this.props.navigation;    
+    const { navigate } = this.props.navigation;
+    closeDrawer = () => {
+      this.drawer._root.close()
+    };
+    openDrawer = () => {
+      this.drawer._root.open()
+    };
+    
 		return (
-  			<Container>
+    
+      
+  			
+
+<Drawer
+      ref={(ref) => { this.drawer = ref; }}
+      content={<SideBar navigator={this.navigator} />}
+      onClose={() => closeDrawer()} >
+      <Container>
+          
           <Image
             source={require('app/Image/plainred.jpg')}
             style={{ flex: 1, height: null, width: null, resizeMode: 'cover' }}
@@ -205,7 +233,9 @@ export default class TradeBoard extends Component {
               <Col size={1}></Col>
             </Grid>
           </Image>
-  			</Container>
+        </Container>
+        </Drawer>
+
 		);
 	}
 }

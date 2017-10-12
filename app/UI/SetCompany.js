@@ -54,7 +54,6 @@ export default class SetCompany extends React.Component {
   }
 
   renderSubmitButton(ref){
-    const {navigate} = this.props.navigation;
     return(
         <TouchableHighlight style = {Styles.MainViewButton}
             onPress = {()=>{
